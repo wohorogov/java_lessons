@@ -4,7 +4,7 @@ import static java.lang.Math.random;
 import static java.lang.Math.round;
 
 public class Slot {
-    public static void main(String[] args) {
+    public static void main() {
         int firstCounter = 0, secondCounter = 0, thirdCounter = 0, size = 7;
         int balance = 100;
         System.out.println("У вас " + balance + "$, ставка - 10%");
