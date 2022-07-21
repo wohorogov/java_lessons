@@ -18,7 +18,7 @@
         <maven.compiler.release>11</maven.compiler.release>
 
         <!--Libs-->
-        <log4j-slf4j-impl.version>2.17.2</log4j-slf4j-impl.version>
+        <log4j-slf4j-impl.version>2.18.0</log4j-slf4j-impl.version>
         <commons-math3.version>3.6.1</commons-math3.version>
 
         <!--Plugins-->
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <version>${commons-math3.version}</version>
+            <version>3.6.1</version>
         </dependency>
     </dependencies>
 
@@ -81,7 +81,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>games.Slot</mainClass>
+                            <mainClass>games.Choice</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
