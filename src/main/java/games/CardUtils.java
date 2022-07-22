@@ -5,22 +5,13 @@ import org.apache.commons.math3.util.MathArrays;
 public class CardUtils {
     public static final int PARS_TOTAL_COUNT = CardUtils.Par.values().length; //9
     public static final int CARDS_TOTAL_COUNT = PARS_TOTAL_COUNT * CardUtils.Suit.values().length; //36
-
-
-
-
-
-
     public static Suit getSuit(int cardNumber) {return Suit.values()[cardNumber / PARS_TOTAL_COUNT];}
-
     public static Par getPar(int cardNumber) {
         return Par.values()[cardNumber % PARS_TOTAL_COUNT];
     }
-
     public static String toString(int cardNumber) {
         return getPar(cardNumber) + " " + getSuit(cardNumber);
     }
-
     public static int[] getShaffledCards() {
         int[] cards = {
                 0, 1, 2, 3, 4, 5, 6, 7, 8,  // бубны

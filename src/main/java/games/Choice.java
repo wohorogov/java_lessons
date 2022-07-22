@@ -5,9 +5,9 @@ import java.io.IOException;
 public class Choice {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     public static void main(String[] args) throws IOException {
-        int choice;
+        int choice = 1;
         do {
-            System.out.println("Выберите игру:\n1 - однорукий бандит, 2 - пьяница, 0 - выход из игры");
+            System.out.println("Выберите игру:\n1 - однорукий бандит, 2 - пьяница, 3 - очко, 0 - выход из игры");
             switch (getCharacterFromUser()) {
                 case '1':
                     Slot.main();
@@ -15,9 +15,11 @@ public class Choice {
                 case '2':
                     Drunkard.main();
                     break;
+                case '3':
+                    BlackJack.main();
                 case '0':
                     choice = 0;
-                    return;
+                    break;
                 default:
                     System.out.println("Игры с таким номером нет!");
             }

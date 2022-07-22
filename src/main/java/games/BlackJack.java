@@ -2,7 +2,7 @@ package games;
 
 import java.io.IOException;
 
-public class JackBlack {
+public class BlackJack {
     private static final int MAX_VALUE = 21;
     private static final int MAX_CARDS_COUNT = 8;
     private static int[] playersMoney = {100, 100};
@@ -13,8 +13,8 @@ public class JackBlack {
     private static int[][] playersCards; // карты игроков. Первый индекс - номер игрока
     private static int[] playersCursors; // курсоры карт игроков. Индекс - номер игрока
 
-    public static void main(String[] args) throws IOException {
-        boolean exit = false, playerEnd = false;
+    public static void main() throws IOException {
+        boolean exit = false;
         int playerSum, AIsum;
         do {
             initRound();
@@ -36,8 +36,6 @@ public class JackBlack {
                     exit = true;
                 }
             }
-            System.out.println("Ваше количество денег " + playersMoney[0] + "$");
-            System.out.println("Kоличество денег компьютера " + playersMoney[1] + "$");
         } while (!exit);
 
         if (playersMoney[0] > 0)
@@ -46,29 +44,37 @@ public class JackBlack {
             System.out.println("Вы проиграли. Соболезнуем...");
     }
 
-    private static int play(int player) {
-        boolean playerEnd = false;
+    private static int play(int player) throws IOException {
+        boolean playerPlay = true;
         int playerSum;
-        String playerMsg;
+        String infoMsg;
         if (player == 0)
-            playerMsg = "Вам выпала карта ";
+            infoMsg = "Вам выпала карта ";
         else
-            playerMsg = "Компьютеру выпала карта ";
+            infoMsg = "Компьютеру выпала карта ";
         addCard2Player(player);
-        System.out.println(playerMsg + CardUtils.toString(playersCards[player][playersCursors[player]]));
+        System.out.println(infoMsg + CardUtils.toString(playersCards[player][playersCursors[player] - 1]));
         addCard2Player(player);
-        System.out.println(playerMsg + CardUtils.toString(playersCards[player][playersCursors[player]]));
-        while (!playerEnd) {
+        System.out.println(infoMsg + CardUtils.toString(playersCards[player][playersCursors[player] - 1]));
+        while (playerPlay) {
+            playerPlay = false;
             playerSum = sum(player);
             if (player == 0) {
                 if (playerSum < MAX_VALUE - 1) {
-                    playerEnd = confirm("Ваше количество очков - " + playerSum + ", будете брать еще карту?");
-                } else
-                    playerEnd = true;
+                    playerPlay = confirm("Ваше количество очков - " + playerSum + ", будете брать еще карту?");
+                    if (playerPlay) {
+                        addCard2Player(player);
+                        System.out.println(infoMsg + CardUtils.toString(playersCards[player][playersCursors[player] - 1]));
+                    }
+
+                }
             }
             else {
-                if (playerSum >= MAX_VALUE - 4)
-                    playerEnd = true;
+                if (playerSum < MAX_VALUE - 4) {
+                    playerPlay = true;
+                    addCard2Player(player);
+                    System.out.println(infoMsg + CardUtils.toString(playersCards[player][playersCursors[player] - 1]));
+                }
             }
         }
         return getFinalSum(player);
@@ -83,8 +89,8 @@ public class JackBlack {
     }
     private static int addCard2Player(int player) {
         playersCards[player][playersCursors[player]] = cards[cursor];
-        cursor++;
-        playersCursors[player]++;
+        cursor += 1;
+        playersCursors[player] += 1;
         return playersCards[player][playersCursors[player] - 1];
     }
     private static void initRound() {
