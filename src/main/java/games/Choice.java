@@ -3,12 +3,12 @@ package games;
 import java.io.IOException;
 
 public class Choice {
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     public static void main(String[] args) throws IOException {
         int choice;
         do {
             System.out.println("Выберите игру:\n1 - однорукий бандит, 2 - пьяница, 0 - выход из игры");
-            choice = System.in.read();
-            switch (choice) {
+            switch (getCharacterFromUser()) {
                 case '1':
                     Slot.main();
                     break;
@@ -16,10 +16,18 @@ public class Choice {
                     Drunkard.main();
                     break;
                 case '0':
+                    choice = 0;
                     return;
                 default:
                     System.out.println("Игры с таким номером нет!");
             }
         } while (choice > 0);
+    }
+
+    public static char getCharacterFromUser() throws IOException {
+        byte[] input = new byte[1 + LINE_SEPARATOR.length()];
+        if (System.in.read(input) != input.length)
+            throw new RuntimeException("Пользователь ввёл недостаточное кол-во символов");
+        return (char) input[0];
     }
 }
