@@ -1,39 +1,25 @@
 package games;
 
-import static org.apache.commons.math3.util.MathArrays.shuffle;
-
 public class Drunkard {
-    private static final int PARS_TOTAL_COUNT = Par.values().length; //9
-    private static final int CARDS_TOTAL_COUNT = PARS_TOTAL_COUNT * Suit.values().length; //36
-    private static int[][] playersCards = new int[2][CARDS_TOTAL_COUNT];
-    private static int[] playerCardTails = new int[2];
-    private static int[] playerCardHeads = new int[2];
+    private static final int[][] playersCards = new int[2][CardUtils.CARDS_TOTAL_COUNT];
+    private static final int[] playerCardTails = new int[2];
+    private static final int[] playerCardHeads = new int[2];
+
     public static void main() {
-        int [] deck;
-        deck = new int[CARDS_TOTAL_COUNT];
+        int [] deck = CardUtils.getShaffledCards();
         int i = 0;
-        while (i < CARDS_TOTAL_COUNT) {
-            deck[i] = i;
-            i++;
-        }
-        shuffle(deck);
-        i = 0;
         int j = 0;
         
-        while (i < CARDS_TOTAL_COUNT) {
+        while (i < CardUtils.CARDS_TOTAL_COUNT) {
             playersCards[0][j] = deck[i];
             playersCards[1][j] = deck[i+1];
             j++;
             i = i + 2;
         }
         i = 0;
-        j = 0;
-        Par par;
-        while (i < CARDS_TOTAL_COUNT / 2) {
-            System.out.println("1:"+i+","+toString(playersCards[0][i]));
-            System.out.println("2:"+i+","+toString(playersCards[1][i]));
-            par = getPar(playersCards[0][i]);
-            System.out.println(par.ordinal());
+        while (i < CardUtils.CARDS_TOTAL_COUNT / 2) {
+            System.out.println("1:"+i+","+CardUtils.toString(playersCards[0][i]));
+            System.out.println("2:"+i+","+CardUtils.toString(playersCards[1][i]));
             i++;
         }
         System.out.println("---------------END---------------");
@@ -65,7 +51,8 @@ public class Drunkard {
                     first_win = true;
                     break;
                 }
-                case 2: {
+                case 2:
+                default: {
                     playerCardHeads[1] = incrementIndex(playerCardHeads[1]);
                     playersCards[1][playerCardHeads[1]] = playersCards[1][playerCardTails[1]];
                     playerCardHeads[1] = incrementIndex(playerCardHeads[1]);
@@ -99,19 +86,7 @@ public class Drunkard {
         }
     }
 
-    private static Suit getSuit(int cardNumber) {
-        return Suit.values()[cardNumber / PARS_TOTAL_COUNT];
-    }
-
-    private static Par getPar(int cardNumber) {
-        return Par.values()[cardNumber % PARS_TOTAL_COUNT];
-    }
-
-    private static String toString(int cardNumber) {
-        return getPar(cardNumber) + " " + getSuit(cardNumber);
-    }
-
-    private static int incrementIndex(int i) { return (i + 1) % CARDS_TOTAL_COUNT; }
+    private static int incrementIndex(int i) { return (i + 1) % CardUtils.CARDS_TOTAL_COUNT; }
 
     private static boolean playerCardsIsEmpty(int playerIndex) {
         int tail = playerCardTails[playerIndex];
@@ -121,8 +96,8 @@ public class Drunkard {
     }
 
     public static int cardComparison(int first, int second) {
-        Par firstPar = getPar(first);
-        Par secondPar = getPar(second);
+        CardUtils.Par firstPar = CardUtils.getPar(first);
+        CardUtils.Par secondPar = CardUtils.getPar(second);
 
         if (firstPar.ordinal() == 0 && secondPar.ordinal() == 8) {
             System.out.println("+");
@@ -141,27 +116,8 @@ public class Drunkard {
         int result;
         result = playerCardHeads[playerIndex] - playerCardTails[playerIndex];
         if (result < 0) {
-            result += CARDS_TOTAL_COUNT;
+            result += CardUtils.CARDS_TOTAL_COUNT;
         }
         return result;
-    }
-
-    enum Suit{
-        SPADES,    //пики
-        HEARTS,    //червы
-        CLUBS,     //трефы
-        DIAMONDS   //бубны
-    }
-
-    enum Par{
-        SIX,
-        SEVEN,
-        EIGHT,
-        NINE,
-        TEN,
-        JACK,
-        QUEEN,
-        KING,
-        ACE
     }
 }
