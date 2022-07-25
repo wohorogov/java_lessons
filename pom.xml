@@ -18,7 +18,7 @@
         <maven.compiler.release>11</maven.compiler.release>
 
         <!--Libs-->
-        <log4j-slf4j-impl.version>2.18.0</log4j-slf4j-impl.version>
+        <log4j-slf4j-impl.version>2.11.1</log4j-slf4j-impl.version>
         <commons-math3.version>3.6.1</commons-math3.version>
 
         <!--Plugins-->
